@@ -1,0 +1,12 @@
+- hosts: master
+  become: true
+  gather_facts: true
+  tasks:
+
+    - name: Run Docker Compose to start Grafana and Prometheus
+      community.docker.docker_compose_v2: 
+         project_src: "{{ playbook_dir }}/..docker/" 
+         files:
+          - docker-compose-node.yml   
+         state: present   
+      register: output

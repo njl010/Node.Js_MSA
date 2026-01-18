@@ -1,0 +1,14 @@
+all: 
+  hosts:
+    master:
+      ansible_host: 13.234.61.101
+      ansible_user: ubuntu
+
+    worker1:
+      ansible_host: 13.234.21.72
+      ansible_user: ubuntu
+
+    worker2:
+      ansible_host: 13.203.66.101
+      ansible_user: ubuntu
+

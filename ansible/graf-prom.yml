@@ -1,0 +1,10 @@
+- hosts: master
+  become: true
+  tasks:  
+    - name: Run Docker Compose to start Grafana and Prometheus
+      community.docker.docker_compose_v2: #installed via "ansible-galaxy collection install community.docker"
+         project_src: "{{ playbook_dir }}/../docker"  #the  compse file is one dir behind, so the /.. will be reprasents the previous step of the current dir.
+         files:
+          - docker-compose.yml    #the "{{ playbook_dir}}" is an ansbile var= indicates the current playbook existing dir
+         state: present   #make sure the Docker Compose application is UP and running.
+      register: output
