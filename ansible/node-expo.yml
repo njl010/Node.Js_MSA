@@ -1,12 +1,30 @@
-- hosts: master
+- hosts: all
   become: true
-  gather_facts: true
   tasks:
+    
+    - name: Create dir for the docker compose
+      file:
+        path: /home/ubuntu/docker
+        state: directory
+        owner: ubuntu
 
-    - name: Run Docker Compose to start Grafana and Prometheus
-      community.docker.docker_compose_v2: 
-         project_src: "{{ playbook_dir }}/..docker/" 
+    - name: Copy the compose file from local to instance
+      copy:
+        src: "{{ item }}" 
+        dest: /home/ubuntu/docker
+      with_items:
+        - ./docker-compose-node.yml
+       # - ./docker-compose.yml
+
+
+    - name: Container for NODE-EXPORTER
+      community.docker.docker_compose_v2:
+         project_src: "/home/ubuntu/docker"  
          files:
-          - docker-compose-node.yml   
-         state: present   
-      register: output
+           - docker-compose-node.yml  
+         state: present 
+      register: bugy
+
+    - name: Output result
+      debug:
+        var: bugy 
